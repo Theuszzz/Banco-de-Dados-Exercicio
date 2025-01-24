@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script>
+        // Função para enviar os dados do formulário
+        async function handleLogin(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            // Obtém os valores dos campos
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Envia uma requisição POST para o backend
+                const response = await fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: username, password: password })
+                });
+
+                // Processa a resposta
+                const data = await response.json();
+                if (response.ok) {
+                    alert(data.message); // Exibe mensagem de sucesso
+                } else {
+                    alert(data.error); // Exibe mensagem de erro
+                }
+            } catch (error) {
+                alert('Erro ao conectar ao servidor. Tente novamente mais tarde.');
+            }
+        }
+    </script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="bg-primary text-center py-3">
+        <div class="container d-flex flex-column align-items-center">
+            <button class="btn btn-warning">Registrar-se</button>
+            <img src="static/img/logo.svg" alt="Logo" style="height: 40px;">
+        </div>
+    </header>
+
+    <main class="flex-grow-1 d-flex justify-content-center align-items-center bg-light">
+        <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
+            <div class="card-body">
+                <h2 class="card-title text-center">Login</h2>
+                <form onsubmit="handleLogin(event)"> <!-- Chama a função ao enviar o formulário -->
+                    <div class="mb-3">
+                        <label for="" class="form-label">Username:</label>
+                        <input type="" class="form-control" id="username" placeholder="Insira seu ID..." required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Senha:</label>
+                        <input type="password" class="form-control" id="password" placeholder="Insira sua senha...">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="reset" class="btn btn-warning">Limpar Campos</button>
+                        <button type="submit" class="btn btn-info">Fazer Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-secondary text-white text-center py-3">
+        <div class="container">
+            <p class="mb-1"><a href="#" class="text-white text-decoration-none">Política de privacidade</a></p>
+            <p class="mb-1"><a href="#" class="text-white text-decoration-none">Contato</a></p>
+            
+        </div>
+    </footer>
+
+</body>
+</html>
